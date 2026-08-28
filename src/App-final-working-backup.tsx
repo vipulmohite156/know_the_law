@@ -451,7 +451,7 @@ const css: Record<string, React.CSSProperties> = {
 
   kpis: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(4, minmax(150px, 1fr))',
+    gridTemplateColumns: 'repeat(5, minmax(150px, 1fr))',
     gap: 12,
     marginTop: 22,
   },
@@ -480,6 +480,34 @@ const css: Record<string, React.CSSProperties> = {
     fontSize: 10,
     fontWeight: 800,
     textTransform: 'uppercase',
+  },
+
+  coverage: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(3, minmax(180px, 1fr))',
+    gap: 12,
+    marginTop: 22,
+  },
+
+  coverageItem: {
+    padding: '15px 17px',
+    background: '#fff',
+    border: '1px solid #d3dce4',
+    borderRadius: 4,
+  },
+
+  coverageBar: {
+    height: 6,
+    marginTop: 12,
+    overflow: 'hidden',
+    borderRadius: 3,
+    background: '#e6edf2',
+  },
+
+  coverageFill: {
+    height: '100%',
+    borderRadius: 3,
+    background: '#315d7d',
   },
 
   section: {
@@ -759,6 +787,22 @@ const App: React.FC<ShellAppProps> = () => {
     return matchesRegulator && text.includes(search.toLowerCase());
   });
 
+  const dueSoonCount = changes.filter((change) => {
+    const deadline = new Date(`${change.deadline} 2026`);
+    const daysUntil = (deadline.getTime() - Date.now()) / 86400000;
+    return daysUntil >= 0 && daysUntil <= 45 && change.status !== 'Ready';
+  }).length;
+
+  const coverageByRegulator = ['RBI', 'SEBI', 'IRDAI'].map((name) => {
+    const records = changes.filter((change) => change.regulator.includes(name));
+    const reviewed = records.filter((change) => change.status !== 'Needs review').length;
+    return {
+      name,
+      count: records.length,
+      percentage: records.length ? Math.round((reviewed / records.length) * 100) : 0,
+    };
+  });
+
   const now = () =>
     new Date().toLocaleString('en-IN', {
       dateStyle: 'medium',
@@ -1026,8 +1070,49 @@ const App: React.FC<ShellAppProps> = () => {
         </div>
 
         <div style={{ ...css.card, ...css.kpi }}>
+          <span style={css.kpiValue}>{dueSoonCount}</span>
+          <span style={css.kpiLabel}>Due Soon</span>
+        </div>
+
+        <div style={{ ...css.card, ...css.kpi }}>
           <span style={css.kpiValue}>92%</span>
           <span style={css.kpiLabel}>Compliance Coverage</span>
+        </div>
+      </div>
+
+      <div style={css.section}>
+        <div style={css.sectionHeader}>
+          <div>
+            <h2 style={css.sectionTitle}>Regulatory Coverage</h2>
+            <span style={css.muted}>DEMO / MOCK / ILLUSTRATIVE DATA</span>
+          </div>
+        </div>
+
+        <div style={css.coverage}>
+          {coverageByRegulator.map((regulatorSummary) => (
+            <button
+              type="button"
+              key={regulatorSummary.name}
+              style={{ ...css.coverageItem, textAlign: 'left', cursor: 'pointer' }}
+              onClick={() => setRegulator(regulatorSummary.name)}
+            >
+              <div style={css.label}>{regulatorSummary.name}</div>
+              <strong style={css.value}>
+                {regulatorSummary.count} tracked signals
+              </strong>
+              <span style={css.muted}>
+                {regulatorSummary.percentage}% reviewed or in progress
+              </span>
+              <div style={css.coverageBar}>
+                <div
+                  style={{
+                    ...css.coverageFill,
+                    width: `${regulatorSummary.percentage}%`,
+                  }}
+                />
+              </div>
+            </button>
+          ))}
         </div>
       </div>
 

@@ -2,3 +2,9 @@ node_modules/
 dist/
 .rocketride/
 .env
+
+# Local backups and test copies
+Compliance-Change-Radar-FINAL.zip
+Compliance-Change-Radar-FINAL/
+Compliance-Test/
+know_the_law/
