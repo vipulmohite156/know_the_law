@@ -1,3 +1,7 @@
-# RocketRide app workspace — one root install links every app under apps/.
+allowBuilds:
+  esbuild: set this to true or false
+minimumReleaseAgeExclude:
+  - react-router-dom@7.18.3
+  - react-router@7.18.3
 packages:
   - 'apps/*'

@@ -19,9 +19,9 @@ import type { AppDescriptor } from 'shell';
 import App from './App';
 
 const descriptor: AppDescriptor = {
-	id: 'our_team_aav.know_the_law',
-	name: 'Compliance Change Radar',
-	branding: { appName: 'Compliance Change Radar' },
+	id: 'local.law_analyzer',
+	name: 'Law Analyzer',
+	branding: { appName: 'Law Analyzer' },
 	app: App,
 };
 

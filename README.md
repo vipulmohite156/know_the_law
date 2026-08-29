@@ -1,13 +1,21 @@
-# Compliance Change Radar
+# Law Analyzer
 
-Compliance Change Radar — a RocketRide app for turning regulatory signals into owned, auditable action.
+A local-first legal review prototype for turning regulatory text into structured obligations, risks, deadlines, and compliance actions.
 
-## What it does
+## Run locally
 
-Track regulatory changes, assess risk, map obligations to controls, and keep review ownership visible in one operating view.
+```bash
+npm install
+npm run dev
+```
 
-## Development
+Open `http://localhost:5173` in a browser. The app uses only the local Vite dev server and browser storage; no cloud service or API key is required.
 
-Open the `.rrapp` file to launch the App Builder: live preview on the Design tab, identity and packaging on the Package tab, publishing on the Deploy tab.
+## Production check
 
-Platform guide for building apps: `.rocketride/docs/ROCKETRIDE_APPS.md` in this workspace.
+```bash
+npm run build
+npm run preview
+```
+
+The demo accepts text-based documents and includes RBI, SEBI, and IRDAI sample notices for an immediate walkthrough.

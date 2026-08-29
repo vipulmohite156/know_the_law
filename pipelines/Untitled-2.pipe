@@ -1,0 +1,118 @@
+{
+  "components": [
+    {
+      "id": "prompt_1",
+      "provider": "prompt",
+      "name": "Prompt",
+      "config": {
+        "instructions": [
+          "Process incoming regulatory compliance updates for Law Analyzer."
+        ],
+        "name": "Prompt"
+      },
+      "ui": {
+        "position": {
+          "x": 930,
+          "y": 190
+        },
+        "measured": {
+          "width": 150,
+          "height": 121
+        },
+        "nodeType": "default",
+        "formDataValid": true
+      },
+      "input": [
+        {
+          "lane": "documents",
+          "from": "landing_ai_extract_1"
+        }
+      ]
+    },
+    {
+      "id": "llm_openai_1",
+      "provider": "llm_openai",
+      "name": "OpenAI",
+      "config": {
+        "profile": "openai-5-2",
+        "openai-5-2": {},
+        "name": "OpenAI"
+      },
+      "ui": {
+        "position": {
+          "x": 1120,
+          "y": 190
+        },
+        "measured": {
+          "width": 150,
+          "height": 68
+        },
+        "nodeType": "default",
+        "formDataValid": false
+      },
+      "input": [
+        {
+          "lane": "questions",
+          "from": "prompt_1"
+        }
+      ]
+    },
+    {
+      "id": "landing_ai_extract_1",
+      "provider": "landing_ai_extract",
+      "name": "Landing.ai Extract",
+      "config": {
+        "default": {
+          "region": "production",
+          "strict": false
+        },
+        "name": "Landing.ai Extract"
+      },
+      "ui": {
+        "position": {
+          "x": 690,
+          "y": 390
+        },
+        "measured": {
+          "width": 150,
+          "height": 86
+        },
+        "nodeType": "default",
+        "formDataValid": false
+      }
+    },
+    {
+      "id": "landing_ai_parse_1",
+      "provider": "landing_ai_parse",
+      "name": "Landing.ai Parse",
+      "config": {
+        "default": {
+          "model": "dpt-2-latest",
+          "region": "production"
+        },
+        "name": "Landing.ai Parse"
+      },
+      "ui": {
+        "position": {
+          "x": 930,
+          "y": 330
+        },
+        "measured": {
+          "width": 150,
+          "height": 86
+        },
+        "nodeType": "default",
+        "formDataValid": false
+      }
+    }
+  ],
+  "isLocked": false,
+  "snapToGrid": true,
+  "snapGridSize": [
+    10,
+    10
+  ],
+  "version": 1,
+  "docRevision": 14,
+  "project_id": "5c4ee56e-8483-4bf0-88d5-906b86bec9e3"
+}

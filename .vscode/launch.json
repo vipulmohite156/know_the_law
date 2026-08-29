@@ -1,0 +1,16 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Law Analyzer",
+      "type": "msedge",
+      "request": "launch",
+      "url": "https://api.rocketride.ai:443/?appid=local.law_analyzer&rrdev=1",
+      "webRoot": "${workspaceFolder}/apps/law_analyzer-ui",
+      "sourceMapPathOverrides": {
+        "webpack:///./*": "${workspaceFolder}/apps/law_analyzer-ui/*",
+        "webpack:///*": "*"
+      }
+    }
+  ]
+}

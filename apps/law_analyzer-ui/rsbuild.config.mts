@@ -33,12 +33,15 @@ export default defineConfig(() => ({
 			shared: {
 				react: { singleton: true, eager: true, requiredVersion: '^18.2.0' },
 				'react-dom': { singleton: true, eager: true, requiredVersion: '^18.2.0' },
-			// Prefer the host's singleton, but keep a local fallback for direct
-			// browser loads where no shell share scope has been initialized.
-			'shell': { singleton: true, requiredVersion: false },
-			// The SDK surface — runtime values (protocol classes, enums, constants)
-			// resolves to the host's singleton when the shell provides one.
-			'rocketride': { singleton: true, requiredVersion: false },
+				// Platform modules are CONSUMED from the shell's share scope at
+				// runtime, never bundled (import: false): the app repo needs no
+				// platform checkout to build — editor types come from the
+				// installed shell package (the workspace's vendored shell.tgz).
+				'shell': { singleton: true, requiredVersion: false, import: false },
+				// The SDK surface — runtime values (protocol classes, enums,
+				// constants) resolve to the host's singleton so class identity
+				// holds across the container boundary.
+				'rocketride': { singleton: true, requiredVersion: false, import: false },
 				// react-refresh/runtime is deliberately NOT shared: the app's
 				// own copy late-attaches to the devtools hook the dev-flavor
 				// shell created BEFORE react-dom loaded (injectIntoGlobalHook
@@ -61,7 +64,7 @@ export default defineConfig(() => ({
 	// CORS: explicitly allow any origin — the serving host isn't fixed, so no
 	// allowlist is possible; declaring it also stops the MF plugin injecting
 	// its own wildcard defaults (and warning about it).
-	server: { port: 3676, cors: { origin: '*' } },
+	server: { port: 3388, cors: { origin: '*' } },
 	// hmr on; liveReload stays at its DEFAULT (true): a failed hot update
 	// that rejects check() falls back to a full reload of the preview page.
 	// (The historic reload loop came from zombie multi-container HMR clients,
@@ -75,9 +78,6 @@ export default defineConfig(() => ({
 	// is rsbuild's runtime placeholder for the ACTUAL port, so dynamic port
 	// assignment keeps working.
 	dev: { hmr: true, lazyCompilation: false, client: { protocol: 'ws', host: 'localhost', port: '<port>' } as const },
-	source: {
-		entry: { index: './src/index.ts' },
-		define: { 'process.env.REACT_APP_OAUTH_ROOT_URL': JSON.stringify('https://oauth2.rocketride.ai') },
-	},
+	source: { entry: { index: './src/index.ts' } },
 	output: { assetPrefix: 'auto' },
 }));
